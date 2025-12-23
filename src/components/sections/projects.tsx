@@ -17,18 +17,18 @@ import { cn } from "@/lib/utils";
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="max-w-7xl mx-auto md:h-[130vh]">
+    <section id="projects" className="max-w-7xl mx-auto md:h-[130vh] relative z-[2] px-4 pb-16">
       <Link href={"#projects"}>
         <h2
           className={cn(
-            "text-4xl text-center md:text-7xl pt-16 mb-32",
+            "text-4xl text-center md:text-7xl pt-16 mb-8 md:mb-32",
             "text-black dark:text-white"
           )}
         >
           Projects
         </h2>
       </Link>
-      <div className="grid grid-cols-1 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
         {projects.map((project, index) => (
           <Modall key={project.src} project={project} />
         ))}
@@ -38,11 +38,11 @@ const ProjectsSection = () => {
 };
 const Modall = ({ project }: { project: Project }) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center w-full">
       <Modal>
-        <ModalTrigger className="bg-transparent flex justify-center group/modal-btn">
+        <ModalTrigger className="bg-transparent flex justify-center group/modal-btn w-full">
           <div
-            className="relative w-full max-w-[400px] md:w-[400px] h-auto rounded-lg overflow-hidden mx-auto"
+            className="relative w-full max-w-full md:max-w-[400px] md:w-[400px] h-auto rounded-lg overflow-hidden mx-auto"
             style={{ aspectRatio: "3/2" }}
           >
             <Image
