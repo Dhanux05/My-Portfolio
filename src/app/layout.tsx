@@ -61,6 +61,37 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+                  let theme;
+                  
+                  if (isMobile) {
+                    // ALWAYS force light theme for mobile, regardless of previous preference
+                    theme = 'light';
+                    localStorage.setItem('theme', 'light');
+                  } else {
+                    // For desktop, use stored preference or default to dark
+                    const stored = localStorage.getItem('theme');
+                    theme = (stored === 'light' || stored === 'dark') ? stored : 'dark';
+                    if (!stored || (stored !== 'light' && stored !== 'dark')) {
+                      localStorage.setItem('theme', 'dark');
+                      theme = 'dark';
+                    }
+                  }
+                  
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        <Script
           defer
           src={process.env.UMAMI_DOMAIN}
           data-website-id={process.env.UMAMI_SITE_ID}
@@ -70,7 +101,6 @@ export default function RootLayout({
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
           disableTransitionOnChange
         >
           <Particles
