@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { DiMongodb, DiNginx, DiNpm, DiPostgresql, DiVim } from "react-icons/di";
 import {
   FaAws,
@@ -39,30 +40,25 @@ import { VscCode } from "react-icons/vsc";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { TbTerminal2 } from "react-icons/tb";
+import { config } from "@/data/config";
 
 const CONTACT_LINKS = [
   {
     name: "Email",
-    content: "abhijitzende75@gmail",
-    href: "mailto:abhijitzende75@gmail.com",
+    content: config.email,
+    href: `mailto:${config.email}`,
     icon: <FaEnvelope height={"50px"} />,
   },
   {
-    name: "Phone",
-    content: "1234567890",
-    href: "tel:8308509180",
-    icon: <FaPhone height={"50px"} />,
-  },
-  {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/dhanush-kumar-r-a92564259/",
+    href: config.social.linkedin,
     content: "/dhanush-kumar-r-a92564259",
     icon: <FaLinkedin height={"50px"} />,
   },
   {
     name: "GitHub",
-    href: "https://github.com/Abhiz2411",
-    content: "/naresh-khatri",
+    href: config.social.github,
+    content: "/Dhanux05",
     icon: <FaGithub height={"50px"} />,
   },
 ];
@@ -243,17 +239,22 @@ function Page() {
             }}
           >
             <div className="flex flex-row lg:flex-col items-center">
-              <div className="flex justify-center items-center lg:w-full lg:aspect-square bg-zinc-800 rounded-xl lg:mb-5">
-                <img
-                  className="rounded-full p-4 lg:p-10 w-[100px] md:w-[150px] lg:w-[200px] aspect-square  bg-zinc-800"
-                  alt="me"
-                  src="/assets/me.jpg"
-                />
+              <div className="flex justify-center items-center lg:w-full lg:mb-5">
+                <div className="relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px] flex-shrink-0">
+                  <Image
+                    src="/assets/7.png"
+                    alt={config.author}
+                    width={200}
+                    height={200}
+                    className="rounded-full object-cover w-full h-full border-4 border-zinc-600 dark:border-zinc-700 shadow-2xl"
+                    priority
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-3 lg:items-center ml-4 sm:ml-10 md:ml-20 lg:ml-0">
-                <p className="text-center text-lg md:text-xl">Dhanush kumar R</p>
-                <div className="text-xs bg-zinc-700 w-fit px-3 py-1 rounded-full mx-auto lg:mx-0">
-                  Web Developer
+                <p className="text-center text-lg md:text-xl font-semibold">{config.author}</p>
+                <div className="text-xs bg-zinc-700 dark:bg-zinc-800 w-fit px-3 py-1 rounded-full mx-auto lg:mx-0">
+                  Web Enthusiast
                 </div>
               </div>
             </div>
@@ -285,19 +286,19 @@ function Page() {
             className="p-10 border-[.5px] rounded-md border-zinc-600"
             style={{ backdropFilter: "blur(2px)" }}
           >
-            <h1 className="text-2xl md:text-3xl mb-10 lg:md-20">About me</h1>
-            <p className="mb-10 text-roboto">
-              Hey there! I&apos;m Dhanush, a Comp. Sci. Engineer with 1.5 year experience in Devlopment, DevOps and 
-              Database management with hands-on experience in deploying & automating workflows, and 
-              collaborating with foreign clients. Strong analytical skills,effective communication,
+            <h1 className="text-2xl md:text-3xl mb-10 lg:mb-20 font-bold">About me</h1>
+            <p className="mb-10 text-roboto leading-relaxed">
+              Hey there! I&apos;m Dhanush, a Computer Science Engineer with 1.5 years of experience in Development, DevOps, and 
+              Database management. I have hands-on experience in deploying & automating workflows, and 
+              collaborating with foreign clients. I bring strong analytical skills, effective communication,
               and a team-oriented approach to driving process improvements and delivering results.
             </p>
-            <p className="mb-10">
-              When I&apos;m not coding, you can find me [Your
-              Interests/Hobbies], exploring new technologies, or sipping coffee
-              while brainstorming my next project.
+            <p className="mb-10 leading-relaxed">
+              When I&apos;m not coding, you can find me exploring new technologies, working on innovative projects, 
+              or sipping coffee while brainstorming my next big idea. I&apos;m passionate about creating efficient 
+              solutions and continuously learning to stay at the forefront of technology.
             </p>
-            <h1 className="text-2xl md:text-3xl mb-10 lg:md-20">Stuff I use</h1>
+            <h1 className="text-2xl md:text-3xl mb-10 lg:mb-20 font-bold">Stuff I use</h1>
             <div className="mb-5">
               {!toolsLoaded ? (
                 <p className="h-[100px]"></p>
