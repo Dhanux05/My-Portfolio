@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalBody,
@@ -12,10 +12,41 @@ import { FloatingDock } from "../ui/floating-dock";
 import Link from "next/link";
 
 import SmoothScroll from "../smooth-scroll";
-import projects, { Project } from "@/data/projects";
+import defaultProjects, { Project } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
 const ProjectsSection = () => {
+  const [projects, setProjects] = useState<Project[]>(defaultProjects);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch projects from API (which reads from JSON if available)
+    fetch("/api/admin/projects")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
+          // Ensure all projects have required fields
+          const validProjects = data.projects.map((p: any) => ({
+            ...p,
+            skills: p.skills || { frontend: [], backend: [] },
+            screenshots: p.screenshots || [],
+            content: p.content || "",
+          }));
+          setProjects(validProjects);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+        // Keep default projects on error
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <section id="projects" className="max-w-7xl mx-auto min-h-screen md:h-[130vh] relative z-[2] px-4 py-8 md:py-16 pb-16">
       <Link href={"#projects"}>
@@ -28,11 +59,17 @@ const ProjectsSection = () => {
           Projects
         </h2>
       </Link>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 w-full">
-        {projects.map((project, index) => (
-          <Modall key={project.src} project={project} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[400px]">
+          <p className="text-zinc-500">Loading projects...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 w-full">
+          {projects.map((project, index) => (
+            <Modall key={project.id || project.src} project={project} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
@@ -46,11 +83,18 @@ const Modall = ({ project }: { project: Project }) => {
             style={{ aspectRatio: "3/2" }}
           >
             <Image
-              className="absolute w-full h-full top-0 left-0 hover:scale-[1.05] transition-all"
-              src={project.src}
+              className="absolute w-full h-full top-0 left-0 hover:scale-[1.05] transition-all object-cover"
+              src={project.src || "/assets/7.png"}
               alt={project.title}
               width={300}
               height={300}
+              onError={(e) => {
+                // Fallback to default image if project image fails to load
+                const target = e.target as HTMLImageElement;
+                if (target.src !== "/assets/7.png") {
+                  target.src = "/assets/7.png";
+                }
+              }}
             />
             <div className="absolute w-full h-1/2 bottom-0 left-0 bg-gradient-to-t from-black via-black/85 to-transparent pointer-events-none">
               <div className="flex flex-col h-full items-start justify-end p-6">
@@ -96,11 +140,11 @@ const ProjectContents = ({ project }: { project: Project }) => {
           <p className="text-sm mt-1 text-neutral-900 dark:text-neutral-300 font-medium">
             Frontend
           </p>
-          {project.skills.frontend?.length > 0 && (
+          {project.skills?.frontend && Array.isArray(project.skills.frontend) && project.skills.frontend.length > 0 && (
             <FloatingDock items={project.skills.frontend} />
           )}
         </div>
-        {project.skills.backend?.length > 0 && (
+        {project.skills?.backend && Array.isArray(project.skills.backend) && project.skills.backend.length > 0 && (
           <div className="flex flex-row md:flex-col-reverse justify-center items-center gap-2 text-3xl mb-8">
             <p className="text-sm mt-1 text-neutral-900 dark:text-neutral-300 font-medium">
               Backend
@@ -138,7 +182,13 @@ const ProjectContents = ({ project }: { project: Project }) => {
           </motion.div>
         ))}
       </div> */}
-      {project.content}
+      {typeof project.content === "string" ? (
+        <div className="font-mono text-black dark:text-white whitespace-pre-wrap">
+          {project.content}
+        </div>
+      ) : (
+        project.content
+      )}
     </>
   );
 };
