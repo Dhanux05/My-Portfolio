@@ -1,4 +1,4 @@
-![Portfolio Preview](https://github.com/Abhiz2411/3D-interactive-portfolio/blob/main/public/assets/seo/og-image.png?raw=true)
+
 
 # 🚀 My Portfolio Website
 
