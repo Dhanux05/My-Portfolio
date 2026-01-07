@@ -46,3 +46,6 @@ Resend API key.txt
 .env
 
 updated-readme.md
+
+# Admin panel data (optional - remove this line if you want to commit admin changes)
+/data/*.json

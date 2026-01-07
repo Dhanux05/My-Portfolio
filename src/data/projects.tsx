@@ -76,7 +76,7 @@ export type Skill = {
   fg: string;
   icon: ReactNode;
 };
-const PROJECT_SKILLS = {
+export const PROJECT_SKILLS = {
   next: {
     title: "Next.js",
     bg: "black",

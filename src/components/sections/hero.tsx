@@ -1,6 +1,7 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { File, Github, Linkedin } from "lucide-react";
@@ -13,10 +14,26 @@ import { usePreloader } from "../preloader";
 import { BlurIn, BoxReveal } from "../reveal-animations";
 import ScrollDownIcon from "../scroll-down-icon";
 import { SiGithub, SiLinkedin } from "react-icons/si";
-import { config } from "@/data/config";
+import { config as defaultConfig } from "@/data/config";
 
 const HeroSection = () => {
   const { isLoading } = usePreloader();
+  const [resumeLink, setResumeLink] = useState(defaultConfig.resume);
+
+  useEffect(() => {
+    // Fetch resume link from API (which reads from JSON if available)
+    fetch("/api/admin/resume")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.resume) {
+          setResumeLink(data.resume);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching resume link:", error);
+        // Keep default resume link on error
+      });
+  }, []);
 
   return (
     <section id="hero" className={cn("relative w-full h-screen")}>
@@ -53,9 +70,9 @@ const HeroSection = () => {
                             "cursor-default text-edge-outline font-display"
                           )}
                         >
-                          {config.author.split(" ")[0]}
+                          {defaultConfig.author.split(" ")[0]}
                           <br className="md:block hiidden" />
-                          {config.author.split(" ")[1]}
+                          {defaultConfig.author.split(" ")[1]}
                           {/* PLEASE hello??
 
                           <br className="md:block hiidden" />
@@ -101,7 +118,7 @@ const HeroSection = () => {
               </div>
               <div className="mt-8 md:ml-2 flex flex-col gap-3">
                 <Link
-                  href={config.resume}
+                  href={resumeLink}
                   target="_blank"
                   className="flex-1"
                 >
@@ -129,7 +146,7 @@ const HeroSection = () => {
                     </TooltipContent>
                   </Tooltip>
                   <Link
-                    href={config.social.github}
+                    href={defaultConfig.social.github}
                     target="_blank"
                   >
                     <Button variant={"outline"}>
@@ -137,7 +154,7 @@ const HeroSection = () => {
                     </Button>
                   </Link>
                   <Link
-                    href={config.social.linkedin}
+                    href={defaultConfig.social.linkedin}
                     target="_blank"
                   >
                     <Button variant={"outline"}>
