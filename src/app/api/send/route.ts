@@ -3,11 +3,10 @@ import { config } from "@/data/config";
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-if (!process.env.RESEND_API_KEY) {
-  console.warn("RESEND_API_KEY is not set. Email functionality will not work.");
-}
+// Initialize Resend only if API key is available (prevents build-time errors)
+const resend = process.env.RESEND_API_KEY 
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const Email = z.object({
   fullName: z.string().min(2, "Full name is invalid!"),
@@ -17,7 +16,7 @@ const Email = z.object({
 export async function POST(req: Request) {
   try {
     // Check if API key is configured
-    if (!process.env.RESEND_API_KEY) {
+    if (!process.env.RESEND_API_KEY || !resend) {
       return Response.json(
         { error: "Email service is not configured. Please set RESEND_API_KEY environment variable." },
         { status: 500 }
@@ -38,7 +37,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { data: resendData, error: resendError } = await resend.emails.send({
+    const { data: resendData, error: resendError } = await resend!.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: [config.email],
       replyTo: zodData.email,
