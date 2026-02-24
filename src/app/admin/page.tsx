@@ -20,9 +20,17 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  // Check if already authenticated
+  const clearSession = () => {
+    sessionStorage.removeItem("adminToken");
+    setAuthToken(null);
+    setIsAuthenticated(false);
+    setProjects([]);
+    setResumeLink("");
+  };
+
+  // Check if already authenticated in the current browser session.
   useEffect(() => {
-    const token = localStorage.getItem("adminToken");
+    const token = sessionStorage.getItem("adminToken");
     if (token) {
       setAuthToken(token);
       setIsAuthenticated(true);
@@ -39,6 +47,15 @@ export default function AdminPage() {
         }),
         fetch("/api/admin/resume"),
       ]);
+
+      if (projectsRes.status === 401) {
+        clearSession();
+        toast({
+          title: "Session expired",
+          description: "Please log in again.",
+        });
+        return;
+      }
 
       if (projectsRes.ok) {
         const projectsData = await projectsRes.json();
@@ -72,7 +89,7 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json();
         setAuthToken(data.token);
-        localStorage.setItem("adminToken", data.token);
+        sessionStorage.setItem("adminToken", data.token);
         setIsAuthenticated(true);
         fetchData(data.token);
         toast({
@@ -95,11 +112,7 @@ export default function AdminPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    setAuthToken(null);
-    setIsAuthenticated(false);
-    setProjects([]);
-    setResumeLink("");
+    clearSession();
   };
 
   const handleSaveResume = async () => {
@@ -153,9 +166,10 @@ export default function AdminPage() {
           description: "Project deleted successfully",
         });
       } else {
+        const error = await response.json();
         toast({
           title: "Error",
-          description: "Failed to delete project",
+          description: error.error || "Failed to delete project",
         });
       }
     } catch (error) {
@@ -173,10 +187,9 @@ export default function AdminPage() {
     try {
       const url = "/api/admin/projects";
       const method = editingProject ? "PUT" : "POST";
-      // Ensure skills are included
       const body = editingProject
-        ? { 
-            id: editingProject.id, 
+        ? {
+            id: editingProject.id,
             ...projectData,
             skills: projectData.skills || editingProject.skills,
           }
@@ -251,7 +264,7 @@ export default function AdminPage() {
             </Button>
           </form>
           <p className="mt-4 text-xs text-zinc-500 text-center">
-            Default password: admin123 (change in .env as ADMIN_PASSWORD)
+            Configure `ADMIN_PASSWORD` in your `.env.local` file.
           </p>
         </div>
       </div>
@@ -409,11 +422,10 @@ function ProjectForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Ensure image path starts with /
-    const normalizedSrc = formData.src.startsWith("/") 
-      ? formData.src 
+    const normalizedSrc = formData.src.startsWith("/")
+      ? formData.src
       : `/${formData.src}`;
-    
+
     onSave({
       ...formData,
       src: normalizedSrc,
@@ -564,4 +576,3 @@ function ProjectForm({
     </form>
   );
 }
-
