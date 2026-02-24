@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { z } from "zod";
 import { config } from "@/data/config";
-
-const CONFIG_FILE = path.join(process.cwd(), "data", "config.json");
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123"; // Change this in production!
+import { verifyAdminRequest } from "@/lib/admin-auth";
+import { readAdminJson, writeAdminJson } from "@/lib/admin-storage";
 
 // Schema for resume link validation
 const ResumeSchema = z.object({
@@ -14,27 +11,12 @@ const ResumeSchema = z.object({
 
 // Helper to read config from JSON or fallback to TS
 async function getConfig() {
-  try {
-    const data = await fs.readFile(CONFIG_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    // If file doesn't exist, return default config
-    return { resume: config.resume };
-  }
+  return readAdminJson("config.json", { resume: config.resume });
 }
 
 // Helper to write config to JSON
 async function saveConfig(configData: { resume: string }) {
-  await fs.mkdir(path.dirname(CONFIG_FILE), { recursive: true });
-  await fs.writeFile(CONFIG_FILE, JSON.stringify(configData, null, 2));
-}
-
-// Verify admin password
-function verifyAuth(request: NextRequest): boolean {
-  const authHeader = request.headers.get("authorization");
-  if (!authHeader) return false;
-  const token = authHeader.replace("Bearer ", "");
-  return token === ADMIN_PASSWORD;
+  await writeAdminJson("config.json", configData);
 }
 
 // GET - Fetch resume link
@@ -53,7 +35,7 @@ export async function GET() {
 
 // PUT - Update resume link
 export async function PUT(request: NextRequest) {
-  if (!verifyAuth(request)) {
+  if (!verifyAdminRequest(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -81,4 +63,3 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
-
