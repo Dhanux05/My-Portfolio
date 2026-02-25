@@ -33,8 +33,22 @@ export default function AdminPage() {
     const token = sessionStorage.getItem("adminToken");
     if (token) {
       setAuthToken(token);
-      setIsAuthenticated(true);
-      fetchData(token);
+      (async () => {
+        try {
+          const res = await fetch("/api/admin/verify", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (res.ok) {
+            setIsAuthenticated(true);
+            fetchData(token);
+          } else {
+            clearSession();
+          }
+        } catch (error) {
+          clearSession();
+        }
+      })();
     }
   }, []);
 
