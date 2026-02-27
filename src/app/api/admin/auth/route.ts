@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminToken, verifyAdminPassword } from "@/lib/admin-auth";
 
+export const dynamic = "force-dynamic";
+
 // POST - Verify admin password
 export async function POST(request: NextRequest) {
   try {

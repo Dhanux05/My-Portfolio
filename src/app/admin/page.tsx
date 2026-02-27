@@ -28,28 +28,8 @@ export default function AdminPage() {
     setResumeLink("");
   };
 
-  // Check if already authenticated in the current browser session.
   useEffect(() => {
-    const token = sessionStorage.getItem("adminToken");
-    if (token) {
-      setAuthToken(token);
-      (async () => {
-        try {
-          const res = await fetch("/api/admin/verify", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          if (res.ok) {
-            setIsAuthenticated(true);
-            fetchData(token);
-          } else {
-            clearSession();
-          }
-        } catch (error) {
-          clearSession();
-        }
-      })();
-    }
+    clearSession();
   }, []);
 
   const fetchData = async (token: string) => {
@@ -134,7 +114,7 @@ export default function AdminPage() {
 
     try {
       const response = await fetch("/api/admin/resume", {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
@@ -148,7 +128,7 @@ export default function AdminPage() {
           description: "Resume link updated successfully",
         });
       } else {
-        const error = await response.json();
+        const error = await response.json().catch(() => ({}));
         toast({
           title: "Error",
           description: error.error || "Failed to update resume link",

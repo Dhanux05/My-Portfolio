@@ -5,6 +5,8 @@ import { Project } from "@/data/projects";
 import { verifyAdminRequest } from "@/lib/admin-auth";
 import { readAdminJson, writeAdminJson } from "@/lib/admin-storage";
 
+export const dynamic = "force-dynamic";
+
 // Schema for project validation
 const ProjectSchema = z.object({
   id: z.string(),

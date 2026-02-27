@@ -3,10 +3,23 @@ import { config } from "@/data/config";
 import { Resend } from "resend";
 import { z } from "zod";
 
+const resendApiKey =
+  process.env.RESEND_API_KEY ||
+  process.env.NEXT_PUBLIC_RESEND_API_KEY ||
+  process.env.RESEND_APIKEY ||
+  "";
+
 // Initialize Resend only if API key is available (prevents build-time errors)
-const resend = process.env.RESEND_API_KEY 
-  ? new Resend(process.env.RESEND_API_KEY)
+const resend = resendApiKey
+  ? new Resend(resendApiKey)
   : null;
+const contactTo = process.env.CONTACT_TO_EMAIL || config.email;
+const rawContactFrom = process.env.CONTACT_FROM_EMAIL || "";
+const defaultSender = "Portfolio Contact <onboarding@resend.dev>";
+const contactFrom =
+  rawContactFrom && !rawContactFrom.includes("your-verified-domain.com")
+    ? rawContactFrom
+    : defaultSender;
 
 const Email = z.object({
   fullName: z.string().min(2, "Full name is invalid!"),
@@ -16,9 +29,12 @@ const Email = z.object({
 export async function POST(req: Request) {
   try {
     // Check if API key is configured
-    if (!process.env.RESEND_API_KEY || !resend) {
+    if (!resendApiKey || !resend) {
       return Response.json(
-        { error: "Email service is not configured. Please set RESEND_API_KEY environment variable." },
+        {
+          error:
+            "Email service is not configured. Please set RESEND_API_KEY in .env.local.",
+        },
         { status: 500 }
       );
     }
@@ -38,8 +54,8 @@ export async function POST(req: Request) {
     }
 
     const { data: resendData, error: resendError } = await resend!.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
-      to: [config.email],
+      from: contactFrom,
+      to: [contactTo],
       replyTo: zodData.email,
       subject: `New message from ${zodData.fullName} via Portfolio`,
       react: EmailTemplate({
@@ -52,7 +68,7 @@ export async function POST(req: Request) {
     if (resendError) {
       console.error("Resend error:", resendError);
       return Response.json(
-        { error: "Failed to send email. Please try again later." },
+        { error: resendError.message || "Failed to send email. Please try again later." },
         { status: 500 }
       );
     }
