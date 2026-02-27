@@ -21,7 +21,6 @@ export default function AdminPage() {
   const { toast } = useToast();
 
   const clearSession = () => {
-    sessionStorage.removeItem("adminToken");
     setAuthToken(null);
     setIsAuthenticated(false);
     setProjects([]);
@@ -83,7 +82,6 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json();
         setAuthToken(data.token);
-        sessionStorage.setItem("adminToken", data.token);
         setIsAuthenticated(true);
         fetchData(data.token);
         toast({
