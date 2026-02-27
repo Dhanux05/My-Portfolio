@@ -3,8 +3,10 @@ import { NextRequest } from "next/server";
 
 const DEFAULT_ADMIN_PASSWORD_HASH =
   "581837f0466067924f7e702edfae38844fc40c85e3c1bae9cb82cdca6e86e2fa";
-const ADMIN_PASSWORD_HASH =
-  process.env.ADMIN_PASSWORD_HASH || DEFAULT_ADMIN_PASSWORD_HASH;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD_HASH = ADMIN_PASSWORD
+  ? crypto.createHash("sha256").update(ADMIN_PASSWORD).digest("hex")
+  : process.env.ADMIN_PASSWORD_HASH || DEFAULT_ADMIN_PASSWORD_HASH;
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || ADMIN_PASSWORD_HASH;
 const TOKEN_TTL_MS = 12 * 60 * 60 * 1000;
 

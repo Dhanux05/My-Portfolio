@@ -4,9 +4,11 @@ import { config } from "@/data/config";
 import { verifyAdminRequest } from "@/lib/admin-auth";
 import { readAdminJson, writeAdminJson } from "@/lib/admin-storage";
 
+export const dynamic = "force-dynamic";
+
 // Schema for resume link validation
 const ResumeSchema = z.object({
-  resume: z.string().url("Resume link must be a valid URL"),
+  resume: z.string().trim().url("Resume link must be a valid URL"),
 });
 
 // Helper to read config from JSON or fallback to TS
@@ -34,7 +36,7 @@ export async function GET() {
 }
 
 // PUT - Update resume link
-export async function PUT(request: NextRequest) {
+async function updateResume(request: NextRequest) {
   if (!verifyAdminRequest(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -62,4 +64,12 @@ export async function PUT(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+export async function PUT(request: NextRequest) {
+  return updateResume(request);
+}
+
+export async function POST(request: NextRequest) {
+  return updateResume(request);
 }
