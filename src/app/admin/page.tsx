@@ -57,7 +57,16 @@ export default function AdminPage() {
 
       if (resumeRes.ok) {
         const resumeData = await resumeRes.json();
-        setResumeLink(resumeData.resume || "");
+        const nextResume = resumeData.resume || "";
+        setResumeLink(nextResume);
+        if (nextResume) {
+          localStorage.setItem("resumeLink", nextResume);
+        }
+      } else {
+        const cachedResume = localStorage.getItem("resumeLink");
+        if (cachedResume) {
+          setResumeLink(cachedResume);
+        }
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -121,6 +130,7 @@ export default function AdminPage() {
       });
 
       if (response.ok) {
+        localStorage.setItem("resumeLink", resumeLink);
         toast({
           title: "Success",
           description: "Resume link updated successfully",

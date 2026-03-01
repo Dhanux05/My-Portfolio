@@ -21,12 +21,18 @@ const HeroSection = () => {
   const [resumeLink, setResumeLink] = useState(defaultConfig.resume);
 
   useEffect(() => {
+    const cachedResume = localStorage.getItem("resumeLink");
+    if (cachedResume) {
+      setResumeLink(cachedResume);
+    }
+
     // Fetch resume link from API (which reads from JSON if available)
     fetch("/api/admin/resume")
       .then((res) => res.json())
       .then((data) => {
         if (data.resume) {
           setResumeLink(data.resume);
+          localStorage.setItem("resumeLink", data.resume);
         }
       })
       .catch((error) => {
