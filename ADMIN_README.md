@@ -45,6 +45,21 @@ When adding or editing a project, you'll need to provide:
 - These JSON files take precedence over the TypeScript files
 - If JSON files don't exist, the site falls back to the TypeScript defaults
 
+### Production-Grade Persistent Storage (Recommended)
+
+For true persistence across all users/devices and deployments, configure Upstash Redis:
+
+```env
+UPSTASH_REDIS_REST_URL=your_upstash_rest_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_rest_token
+# Optional key prefix
+ADMIN_STORAGE_PREFIX=portfolio:admin
+```
+
+Behavior:
+- When Redis env vars are present, admin data is read/written in Redis (shared globally).
+- When Redis is not configured, app falls back to local JSON files.
+
 ## Security Notes
 
 1. **Change the default password** in production

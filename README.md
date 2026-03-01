@@ -65,6 +65,11 @@ The portfolio website is built using the following tools and technologies:
 
    # Add your Resend API key
    RESEND_API_KEY=your_resend_api_key_here
+
+   # Optional but recommended for permanent admin persistence across devices
+   UPSTASH_REDIS_REST_URL=your_upstash_rest_url
+   UPSTASH_REDIS_REST_TOKEN=your_upstash_rest_token
+   ADMIN_STORAGE_PREFIX=portfolio:admin
    ```
 
 5. Start the development server:
@@ -93,17 +98,4 @@ This project is deployed using **Vercel** for its blazing-fast performance and e
 
 Note: Make sure to keep your API key secret and never commit it to your repository.
 
-## 💖 Acknowledgments
 
-A huge shoutout to [Naresh Khatri](https://github.com/Naresh-Khatri/Portfolio) for the inspiration and ideas that sparked this journey! 💡 If you're interested in creative web design, definitely check out his work.
-
-## 📬 Contact
-
-Feel free to reach out to me for collaboration, feedback, or just to say hi! 😊
-
-- **Email:** abhijitzende75@gmail.com
-- **LinkedIn:** [Your LinkedIn Profile](https://www.linkedin.com/in/zende-abhijit/)
-
----
-
-⭐ If you like this project, don't forget to give it a star!
