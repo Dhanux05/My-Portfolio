@@ -31,7 +31,7 @@ const config = {
   author: "Dhanush kumar R",
   email: "dhanushkumar.r0000@gmail.com",
   site: "https://dhanushkumar.r.in",
-  resume: "https://drive.google.com/file/d/1RalMNS3lJ-lOEv70RoByRbzid6EW9Mtk/view?usp=drivesdk",
+  resume: "/assets/resume/dhanush-resume.pdf",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
