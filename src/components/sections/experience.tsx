@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
-import { BarChart3, BriefcaseBusiness } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, MonitorSmartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type ExperienceItem = {
@@ -14,6 +14,17 @@ type ExperienceItem = {
 };
 
 const experienceItems: ExperienceItem[] = [
+  {
+    period: "Feb 2026 - Present",
+    role: "Web Developer Intern",
+    focus: "Sn Info Systems",
+    highlights: [
+      "Currently working on developing and maintaining responsive web applications.",
+      "Assisting in improving website performance and user experience.",
+      "Collaborating with the team on frontend development tasks using modern web technologies.",
+    ],
+    icon: <MonitorSmartphone className="h-5 w-5" />,
+  },
   {
     period: "Nov 2023",
     role: "Data Analytics Micro Intern",
@@ -51,7 +62,7 @@ const ExperienceSection = () => {
         </h2>
       </Link>
       <p className="max-w-3xl mx-auto text-center text-sm md:text-base text-white/90 mb-10 md:mb-14">
-        Professional and training experience in data analytics and full-stack web development.
+        Current and past experience across web development, full-stack training, and data analytics.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
