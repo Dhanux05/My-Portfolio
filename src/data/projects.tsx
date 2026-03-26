@@ -242,7 +242,14 @@ export const PROJECT_SKILLS = {
     title: "OpenAI",
     bg: "black",
     fg: "white",
-    icon: <img src="assets/icons/openai-svgrepo-com_white.svg" alt="OpenAI"/>,
+    icon: (
+      <Image
+        src="/assets/icons/openai-svgrepo-com_white.svg"
+        alt="OpenAI"
+        width={20}
+        height={20}
+      />
+    ),
   },
   netlify: {
     title: "Netlify",
@@ -278,7 +285,14 @@ export const PROJECT_SKILLS = {
     title: "Java",
     bg: "black",
     fg: "white",
-    icon: <img src="assets/icons/icons8-java.svg" alt="Java"/>,
+    icon: (
+      <Image
+        src="/assets/icons/icons8-java.svg"
+        alt="Java"
+        width={20}
+        height={20}
+      />
+    ),
   },
   cplusplus: {
     title: "C++",

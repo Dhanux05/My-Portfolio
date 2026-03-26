@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -421,6 +422,11 @@ function ProjectForm({
     live: project?.live || "",
     content: typeof project?.content === "string" ? project.content : "",
   });
+  const [imagePreviewError, setImagePreviewError] = useState(false);
+
+  useEffect(() => {
+    setImagePreviewError(false);
+  }, [formData.src]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -497,20 +503,20 @@ function ProjectForm({
             <div className="mt-2">
               <p className="text-xs text-zinc-400 mb-1">Preview:</p>
               <div className="relative w-full h-32 border border-zinc-600 rounded overflow-hidden bg-zinc-800">
-                <img
-                  src={formData.src}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = "none";
-                    target.parentElement!.innerHTML = `
-                      <div class="flex items-center justify-center h-full text-zinc-500 text-xs">
-                        Image not found. Make sure the path is correct.
-                      </div>
-                    `;
-                  }}
-                />
+                {imagePreviewError ? (
+                  <div className="flex items-center justify-center h-full text-zinc-500 text-xs">
+                    Image not found. Make sure the path is correct.
+                  </div>
+                ) : (
+                  <Image
+                    src={formData.src}
+                    alt="Preview"
+                    fill
+                    unoptimized
+                    className="object-cover"
+                    onError={() => setImagePreviewError(true)}
+                  />
+                )}
               </div>
             </div>
           )}

@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 interface IndexProps {
   src: string;
   isActive: boolean;
+  alt: string;
 }
 
-const Index: React.FC<IndexProps> = ({ src, isActive }) => {
+const Index: React.FC<IndexProps> = ({ src, isActive, alt }) => {
   return (
     <motion.div
       variants={opacity}
@@ -23,7 +24,7 @@ const Index: React.FC<IndexProps> = ({ src, isActive }) => {
         width={400}
         height={400}
         className="my-32 w-full h-auto object-cover"
-        alt={"Image"}
+        alt={alt}
         unoptimized={true}
       />
     </motion.div>

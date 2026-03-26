@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { SocketContext, User, UserMap } from "@/contexts/socketio";
 import { useMouse } from "@/hooks/use-mouse";

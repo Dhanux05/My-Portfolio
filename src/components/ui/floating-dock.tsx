@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Note: Use position fixed according to your needs
  * Desktop navbar is better positioned at the bottom
