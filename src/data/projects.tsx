@@ -952,5 +952,152 @@ const projects: Project[] = [
       );
     },
   },
+  { // 05. Company Attendance Dashboard project
+    id: "company-attendance-dashboard",
+    category: "Enterprise Dashboard",
+    title: "Company Attendance Dashboard",
+    src: "/assets/projects-screenshots/company-attendance-dashboard/1.png",
+    screenshots: ["1.png"],
+    live: "https://github.com/Dhanux05/company-attendance-dashboard",
+    github: "https://github.com/Dhanux05/company-attendance-dashboard",
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.react,
+        PROJECT_SKILLS.ts,
+        PROJECT_SKILLS.tailwind,
+      ],
+      backend: [
+        PROJECT_SKILLS.node,
+        PROJECT_SKILLS.express,
+        PROJECT_SKILLS.mongo,
+      ],
+    },
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-black dark:text-white">
+            Company Attendance Dashboard is a workforce management project focused on
+            tracking employee attendance, simplifying day-to-day monitoring, and
+            turning attendance records into a clear operational dashboard.
+          </TypographyP>
+          <ProjectsLinks live={this.live} repo={this.github} />
+          <TypographyH3 className="my-4 mt-8 text-black dark:text-white">Highlights</TypographyH3>
+          <p className="font-mono mb-2 text-black dark:text-white">
+            The project is designed around practical admin workflows like attendance
+            review, status visibility, and dashboard-style reporting so company teams
+            can manage records more efficiently.
+          </p>
+        </div>
+      );
+    },
+  },
+  { // 06. AirCanva project
+    id: "aircanva",
+    category: "Creative Web App",
+    title: "AirCanva",
+    src: "/assets/projects-screenshots/aircanva/1.png",
+    screenshots: ["1.png"],
+    live: "https://github.com/Dhanux05/aircanva",
+    github: "https://github.com/Dhanux05/aircanva",
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.react,
+        PROJECT_SKILLS.ts,
+        PROJECT_SKILLS.tailwind,
+      ],
+      backend: [
+        PROJECT_SKILLS.node,
+      ],
+    },
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-black dark:text-white">
+            AirCanva is a creative design-focused web application inspired by modern
+            visual editing tools. It emphasizes an interactive UI, smooth editing
+            flows, and a builder-style experience for working with digital content.
+          </TypographyP>
+          <ProjectsLinks live={this.live} repo={this.github} />
+          <TypographyH3 className="my-4 mt-8 text-black dark:text-white">Highlights</TypographyH3>
+          <p className="font-mono mb-2 text-black dark:text-white">
+            This project showcases frontend-heavy product thinking with attention to
+            editor interactions, responsive layouts, and a polished visual workflow.
+          </p>
+        </div>
+      );
+    },
+  },
+  { // 07. 3D Drone Simulator project
+    id: "3d-drone-simulator",
+    category: "3D Simulation",
+    title: "3D Drone Simulator",
+    src: "/assets/projects-screenshots/3d-drone-simulator/1.png",
+    screenshots: ["1.png"],
+    live: "https://github.com/Dhanux05/3d-drone-simulator",
+    github: "https://github.com/Dhanux05/3d-drone-simulator",
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.react,
+        PROJECT_SKILLS.ts,
+        PROJECT_SKILLS.spline,
+      ],
+      backend: [],
+    },
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-black dark:text-white">
+            3D Drone Simulator is an interactive simulation project that explores
+            drone behavior and 3D motion in a visually engaging environment. It
+            highlights real-time interaction, spatial thinking, and immersive UI work.
+          </TypographyP>
+          <ProjectsLinks live={this.live} repo={this.github} />
+          <TypographyH3 className="my-4 mt-8 text-black dark:text-white">Highlights</TypographyH3>
+          <p className="font-mono mb-2 text-black dark:text-white">
+            The project focuses on simulation-style controls, 3D presentation, and
+            smooth scene rendering to create a hands-on drone exploration experience.
+          </p>
+        </div>
+      );
+    },
+  },
+  { // 08. MarketPilot project
+    id: "marketpilot",
+    category: "Business & Analytics",
+    title: "MarketPilot",
+    src: "/assets/projects-screenshots/marketpilot/1.png",
+    screenshots: ["1.png"],
+    live: "https://github.com/Dhanux05/marketpilot",
+    github: "https://github.com/Dhanux05/marketpilot",
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.react,
+        PROJECT_SKILLS.ts,
+        PROJECT_SKILLS.tailwind,
+      ],
+      backend: [
+        PROJECT_SKILLS.node,
+        PROJECT_SKILLS.express,
+      ],
+    },
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-black dark:text-white">
+            MarketPilot is a business-oriented product built around market insights,
+            data visibility, and decision support. It reflects a dashboard-driven
+            approach to presenting information in a clear, actionable format.
+          </TypographyP>
+          <ProjectsLinks live={this.live} repo={this.github} />
+          <TypographyH3 className="my-4 mt-8 text-black dark:text-white">Highlights</TypographyH3>
+          <p className="font-mono mb-2 text-black dark:text-white">
+            The experience is centered on structured data presentation, usable
+            interface design, and building tools that help users interpret trends and
+            act with confidence.
+          </p>
+        </div>
+      );
+    },
+  },
 ];
 export default projects;

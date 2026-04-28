@@ -48,7 +48,10 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <section id="projects" className="max-w-7xl mx-auto min-h-screen md:h-[130vh] relative z-[2] px-4 py-8 md:py-16 pb-16">
+    <section
+      id="projects"
+      className="max-w-7xl mx-auto min-h-screen relative z-[2] px-4 py-8 md:py-16 pb-24 md:pb-32"
+    >
       <Link href={"#projects"}>
         <h2
           className={cn(
